@@ -27,7 +27,7 @@ async def get_work(
 
     try:
         master = await check_master_exist_and_get_it(
-            work.master
+            work.master_id
         )
     except Exception as error:
         master = 0
@@ -37,7 +37,7 @@ async def get_work(
         work.work_order_id, session
     )
 
-    work.master = master
+    work.master_id = master
     work.work_order_id = work_order
     return work
 
@@ -67,7 +67,7 @@ async def create_work(
         work.work_order_id, session, get_object=False
     )
     await check_master_exist_and_get_it(
-        work.master, session
+        work.master_id, session
     )
     new_work = await crud_work.create(
         work, session

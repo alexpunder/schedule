@@ -1,5 +1,5 @@
 from typing import Optional
-from datetime import datetime, time, timedelta
+from datetime import datetime, time, timedelta, date
 
 from pydantic import BaseModel, Field
 
@@ -7,10 +7,10 @@ from app.schemas.car_post import CarPostDB
 from app.schemas.work_order import WorkOrderDB
 
 
-dt_format = '%Y-%m-%dT%H:%M'
+dt_format = '%Y-%m-%d'
 time_format = '%H:%M'
 
-DT_NOW = datetime.now().strftime(dt_format)
+DATE_NOW = date.today().strftime(dt_format)
 FROM_TIME = (
     datetime.now() + timedelta(minutes=10)
 ).time().strftime(time_format)
@@ -20,7 +20,7 @@ TO_TIME = (
 
 
 class ReservationBase(BaseModel):
-    dt_to_create: datetime = Field(..., example=DT_NOW)
+    dt_to_reserve: date = Field(..., example=DATE_NOW)
     time_from_reserve: time = Field(..., example=FROM_TIME)
     time_to_reserve: time = Field(..., example=TO_TIME)
     description: str

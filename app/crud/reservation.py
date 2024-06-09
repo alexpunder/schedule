@@ -26,7 +26,7 @@ class CRUDReservation(CRUDBase):
         work_order_id = object_in_data.get('work_order')
         time_from_reserve = object_in_data.get('time_from_reserve')
         time_to_reserve = object_in_data.get('time_to_reserve')
-        dt_to_create = object_in_data.get('dt_to_create')
+        dt_to_reserve = object_in_data.get('dt_to_reserve')
 
         car_post, _ = await check_car_post_and_work_order_exists(
             car_post_id=car_post_id,
@@ -35,7 +35,7 @@ class CRUDReservation(CRUDBase):
         )
 
         await checking_correctness_car_post_dt_time_reservation(
-            car_post, time_from_reserve, time_to_reserve, dt_to_create
+            car_post, time_from_reserve, time_to_reserve, dt_to_reserve
         )
 
         # await check_reservation_intersections(
@@ -82,7 +82,7 @@ class CRUDReservation(CRUDBase):
             select(Reservation).where(
                 Reservation.car_post == car_post,
                 and_(
-                    func.DATE(date) == func.DATE(Reservation.dt_to_create)
+                    func.DATE(date) == func.DATE(Reservation.dt_to_reserve)
                 )
             )
         )

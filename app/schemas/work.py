@@ -10,7 +10,7 @@ class WorkBase(BaseModel):
     title: str
     price: PositiveInt
     quantity: PositiveInt
-    master: int
+    master_id: int
     work_order_id: int
 
     class Config:
@@ -19,7 +19,7 @@ class WorkBase(BaseModel):
 
 class WorkDB(WorkBase):
     id: int
-    master: Union[MasterDB, int]
+    master_id: Union[MasterDB, int]
     work_order_id: Union[WorkOrderDB, int]
 
 

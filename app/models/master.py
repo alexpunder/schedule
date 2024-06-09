@@ -1,5 +1,7 @@
+from sqlalchemy.orm import relationship
+
 from app.models.base import ClientMasterBase
 
 
 class Master(ClientMasterBase):
-    pass
+    works = relationship('Work', back_populates='master')

@@ -49,7 +49,7 @@ main_router.include_router(
     tags=['auto']
 )
 
-main_router.include_router(
-    user_router,
-    tags=['user']
-)
+# main_router.include_router(
+#     user_router,
+#     tags=['user']
+# )

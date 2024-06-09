@@ -1,8 +1,8 @@
-"""First migration
+"""empty message
 
-Revision ID: 0dbff133b13a
+Revision ID: abc7a6eac1b3
 Revises: 
-Create Date: 2024-06-08 19:56:19.725405
+Create Date: 2024-06-09 14:18:01.977236
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '0dbff133b13a'
+revision: str = 'abc7a6eac1b3'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -70,7 +70,7 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('reservation',
-    sa.Column('dt_to_create', sa.DateTime(), nullable=True),
+    sa.Column('dt_to_reserve', sa.Date(), nullable=True),
     sa.Column('time_from_reserve', sa.Time(), nullable=True),
     sa.Column('time_to_reserve', sa.Time(), nullable=True),
     sa.Column('description', sa.String(length=255), nullable=False),
@@ -85,9 +85,10 @@ def upgrade() -> None:
     sa.Column('title', sa.String(length=255), nullable=True),
     sa.Column('price', sa.Integer(), nullable=True),
     sa.Column('quantity', sa.Integer(), nullable=True),
-    sa.Column('master', sa.Integer(), nullable=True),
+    sa.Column('master_id', sa.Integer(), nullable=True),
     sa.Column('work_order_id', sa.Integer(), nullable=True),
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['master_id'], ['master.id'], ),
     sa.ForeignKeyConstraint(['work_order_id'], ['workorder.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

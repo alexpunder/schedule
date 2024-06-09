@@ -1,10 +1,10 @@
-from sqlalchemy import Column, String, Integer, DateTime, Time, ForeignKey
+from sqlalchemy import Column, String, Integer, Date, Time, ForeignKey
 
 from app.core.db import Base
 
 
 class Reservation(Base):
-    dt_to_create = Column(DateTime)
+    dt_to_reserve = Column(Date)
     time_from_reserve = Column(Time)
     time_to_reserve = Column(Time)
     description = Column(String(255), nullable=False)

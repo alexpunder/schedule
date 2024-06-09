@@ -1,6 +1,6 @@
 from http import HTTPStatus
 from typing import Optional
-from datetime import datetime, timedelta, time
+from datetime import datetime, timedelta, time, date
 
 from fastapi.exceptions import HTTPException
 from sqlalchemy import select, and_, func
@@ -38,10 +38,10 @@ async def checking_correctness_car_post_dt_time_reservation(
     car_post, time_from_reserve, time_to_reserve, dt_to_create
 ):
     DAYS_IN_PAST = 3
-    current_dt_time = datetime.now()
-    check_dt_difference = current_dt_time - dt_to_create
+    current_date = date.today()
+    check_date_difference = current_date - dt_to_create
 
-    if check_dt_difference > timedelta(days=DAYS_IN_PAST):
+    if check_date_difference > timedelta(days=DAYS_IN_PAST):
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST,
             detail=(
