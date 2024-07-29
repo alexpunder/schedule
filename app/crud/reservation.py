@@ -89,5 +89,17 @@ class CRUDReservation(CRUDBase):
         car_post_reservations = car_post_reservations.scalars().all()
         return car_post_reservations
 
+    async def get_date_reservations(
+        self,
+        date: date,
+        session: AsyncSession
+    ):
+        date_reservarions = await session.execute(
+            select(Reservation).where(
+                func.DATE(date) == func.DATE(Reservation.dt_to_reserve)
+            )
+        )
+        return date_reservarions.scalars().all()
+
 
 crud_reservation = CRUDReservation(Reservation)

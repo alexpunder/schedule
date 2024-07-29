@@ -24,6 +24,20 @@ router = APIRouter()
 
 
 @router.get(
+    '/date-reservations',
+    response_model=Optional[list[ReservationDB]]
+)
+async def get_day_reservations(
+    date: date,
+    session: AsyncSession = Depends(get_async_session)
+):
+    day_reservations = await crud_reservation.get_date_reservations(
+        date, session
+    )
+    return day_reservations
+
+
+@router.get(
     '/{reservation_id}',
     response_model=ReservationExtend
 )
@@ -43,19 +57,6 @@ async def get_reservation(
     reservation.work_order = work_order
     reservation.car_post = car_post
     return reservation
-
-
-@router.get(
-    '/',
-    response_model=list[ReservationDB]
-)
-async def get_all_reservations(
-    session: AsyncSession = Depends(get_async_session)
-):
-    all_reservations = await crud_reservation.get_all(
-        session
-    )
-    return all_reservations
 
 
 @router.get(

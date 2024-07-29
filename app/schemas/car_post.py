@@ -1,4 +1,3 @@
-from typing import Optional
 from datetime import time
 
 from pydantic import BaseModel, Field, model_validator
@@ -26,8 +25,8 @@ class CarPostDB(CarPostBase):
 
 
 class CarPostCreate(CarPostBase):
-    time_to_begin: Optional[time] = DEFAULT_BEGIN_TIME
-    time_to_end: Optional[time] = DEFAULT_END_TIME
+    time_to_begin: time = DEFAULT_BEGIN_TIME
+    time_to_end: time = DEFAULT_END_TIME
 
     @model_validator(mode='after')
     def check_time_begin_before_end(self):
