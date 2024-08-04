@@ -35,7 +35,10 @@ async def check_car_post_and_work_order_exists(
 
 
 async def checking_correctness_car_post_dt_time_reservation(
-    car_post, time_from_reserve, time_to_reserve, dt_to_create
+    car_post: int,
+    time_from_reserve: time,
+    time_to_reserve: time,
+    dt_to_create: datetime
 ):
     DAYS_IN_PAST = 3
     current_date = date.today()
@@ -63,35 +66,30 @@ async def checking_correctness_car_post_dt_time_reservation(
         )
 
 
-# async def check_reservation_intersections(
-#     *,
-#     dt_to_create: datetime,
-#     time_from_reserve: time,
-#     time_to_reserve: time,
-#     description: str,
-#     work_order: Optional[int],
-#     car_post: int,
-#     session: AsyncSession
-# ):
-#     car_post_reservations = await session.execute(
-#         select(Reservation).where(
-#             Reservation.car_post == car_post,
-#             and_(
-#                 time_from_reserve <= Reservation.time_to_reserve,
-#                 time_to_reserve >= Reservation.time_from_reserve
-#             ),
-#             and_(
-#                 func.DATE(dt_to_create) == func.DATE(Reservation.dt_to_create)
-#             )
-#         )
-#     )
-#     # car_post_reservations = car_post_reservations.scalars().all()
-#     # return car_post_reservations
+async def check_reservation_intersections(
+    dt_to_reserve: datetime,
+    time_from_reserve: time,
+    time_to_reserve: time,
+    car_post: int,
+    session: AsyncSession
+):
+    car_post_reservations = await session.execute(
+        select(Reservation).where(
+            Reservation.car_post == car_post,
+            func.DATE(dt_to_reserve) == func.DATE(Reservation.dt_to_reserve),
+            and_(
+                time_from_reserve < Reservation.time_to_reserve,
+                time_to_reserve > Reservation.time_from_reserve
+            )
+        )
+    )
 
-#     if car_post_reservations:
-#         raise HTTPException(
-#             status_code=HTTPStatus.BAD_REQUEST,
-#             detail=(
-#                 'Нельзя бронировать поверх зарезервированного времени.'
-#             )
-#         )
+    car_post_reservations = car_post_reservations.scalars().all()
+
+    if car_post_reservations:
+        raise HTTPException(
+            status_code=HTTPStatus.BAD_REQUEST,
+            detail=(
+                'Нельзя бронировать поверх зарезервированного времени.'
+            )
+        )

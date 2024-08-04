@@ -9,7 +9,7 @@ from app.models import Reservation
 from app.api.validations.shared_func import (
     check_car_post_and_work_order_exists,
     checking_correctness_car_post_dt_time_reservation,
-    # check_reservation_intersections
+    check_reservation_intersections
 )
 from app.schemas.reservation import ReservationDB
 
@@ -38,9 +38,13 @@ class CRUDReservation(CRUDBase):
             car_post, time_from_reserve, time_to_reserve, dt_to_reserve
         )
 
-        # await check_reservation_intersections(
-        #     **object_in_data, session=session
-        # )
+        await check_reservation_intersections(
+            dt_to_reserve,
+            time_from_reserve,
+            time_to_reserve,
+            car_post,
+            session
+        )
 
         db_object = self.model(**object_in_data)
         session.add(db_object)
@@ -60,6 +64,13 @@ class CRUDReservation(CRUDBase):
         await check_car_post_and_work_order_exists(
             car_post_id=update_data.get('car_post'),
             work_order_id=update_data.get('work_order'),
+            session=session
+        )
+        await check_reservation_intersections(
+            dt_to_reserve=update_data.get('dt_to_reserve'),
+            time_from_reserve=update_data.get('time_from_reserve'),
+            time_to_reserve=update_data.get('time_to_reserve'),
+            car_post=update_data.get('car_post'),
             session=session
         )
 
