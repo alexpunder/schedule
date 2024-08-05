@@ -9,6 +9,7 @@ class Work(Base):
     price = Column(Integer)
     quantity = Column(Integer)
     master_id = Column(Integer, ForeignKey('master.id'))
-    master = relationship('Master', back_populates='works')
     work_order_id = Column(Integer, ForeignKey('workorder.id'))
-    work_order = relationship('WorkOrder', back_populates='works')
+
+    master = relationship('Master', back_populates='work')
+    work_order = relationship('WorkOrder', back_populates='work')
