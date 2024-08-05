@@ -17,10 +17,10 @@ class WorkOrder(Base):
     description: Mapped[str]
     client_id: Mapped[int | None] = mapped_column(ForeignKey('client.id'))
 
-    work: Mapped['Work'] = relationship(
+    work: Mapped[list['Work']] = relationship(
         back_populates='work_order'
     )
-    reservation: Mapped['Reservation'] = relationship(
+    reservation: Mapped[list['Reservation']] = relationship(
         back_populates='work_order'
     )
     client: Mapped['Client'] = relationship(

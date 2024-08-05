@@ -1,6 +1,6 @@
 __all__ = (
     'CarPost', 'Work', 'WorkOrder', 'Reservation',
-    'User', 'Auto', 'Client', 'Master'
+    'User', 'Auto', 'Client', 'Master', 'MasterWork'
 )
 
 from .car_post import CarPost
@@ -11,3 +11,4 @@ from .user import User
 from .auto import Auto
 from .client import Client
 from .master import Master
+from .master_work import MasterWork
