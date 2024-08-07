@@ -7,7 +7,7 @@ from starlette_admin import (
 from app.core.db import engine
 from app.models import (
     CarPost, Work, WorkOrder, Reservation,
-    Auto, Client, Master, User
+    Auto, Client, Master, User,
 )
 
 admin = Admin(
@@ -65,7 +65,7 @@ class WorkView(ModelView):
         StringField('title', label='Название работы'),
         IntegerField('price', label='Стоимость за единицу'),
         IntegerField('quantity', label='Количество'),
-        HasOne('work_order', identity='workorder', label='Заказ-наряд'),
+        HasMany('work_order', identity='workorder', label='Заказ-наряд'),
         HasMany('masters', identity='master', label='Мастер')
     ]
 

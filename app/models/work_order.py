@@ -18,7 +18,8 @@ class WorkOrder(Base):
     client_id: Mapped[int | None] = mapped_column(ForeignKey('client.id'))
 
     work: Mapped[list['Work']] = relationship(
-        back_populates='work_order'
+        back_populates='work_order',
+        secondary='workorderwork'
     )
     reservation: Mapped[list['Reservation']] = relationship(
         back_populates='work_order'

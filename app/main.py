@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
-from app.api.routers import main_router
+# from app.api.routers import main_router
 from app.core.admin import admin
 from app.core.init_admin import create_superuser
 
@@ -28,6 +28,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(main_router)
+# app.include_router(main_router)
 
 admin.mount_to(app)

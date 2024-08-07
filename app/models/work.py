@@ -1,7 +1,6 @@
 from typing import TYPE_CHECKING
 
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import relationship, Mapped, mapped_column
+from sqlalchemy.orm import relationship, Mapped
 
 from app.core.db import Base
 
@@ -14,12 +13,10 @@ class Work(Base):
     title: Mapped[str]
     price: Mapped[int]
     quantity: Mapped[int]
-    work_order_id: Mapped[int | None] = mapped_column(
-        ForeignKey('workorder.id')
-    )
 
-    work_order: Mapped['WorkOrder'] = relationship(
-        back_populates='work'
+    work_order: Mapped[list['WorkOrder']] = relationship(
+        back_populates='work',
+        secondary='workorderwork'
     )
     masters: Mapped[list['Master']] = relationship(
         back_populates='works',
