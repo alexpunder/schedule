@@ -1,4 +1,5 @@
 from sqlalchemy import Column, String, Boolean, Time
+from sqlalchemy.orm import relationship
 
 from app.core.db import Base
 from app.core.constants import (
@@ -11,3 +12,5 @@ class CarPost(Base):
     name = Column(String(255), unique=True, nullable=False)
     time_to_begin = Column(Time, default=DEFAULT_BEGIN_TIME)
     time_to_end = Column(Time, default=DEFAULT_END_TIME)
+
+    reservation = relationship('Reservation', back_populates='car_post')

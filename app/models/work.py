@@ -1,14 +1,27 @@
-from sqlalchemy import Column, String, Integer, ForeignKey
-from sqlalchemy.orm import relationship
+from typing import TYPE_CHECKING
+
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app.core.db import Base
 
+if TYPE_CHECKING:
+    from app.models.master import Master
+    from app.models.work_order import WorkOrder
+
 
 class Work(Base):
-    title = Column(String(255))
-    price = Column(Integer)
-    quantity = Column(Integer)
-    master_id = Column(Integer, ForeignKey('master.id'))
-    master = relationship('Master', back_populates='works')
-    work_order_id = Column(Integer, ForeignKey('workorder.id'))
-    work_order = relationship('WorkOrder', back_populates='works')
+    title: Mapped[str]
+    price: Mapped[int]
+    quantity: Mapped[int]
+    work_order_id: Mapped[int | None] = mapped_column(
+        ForeignKey('workorder.id')
+    )
+
+    work_order: Mapped['WorkOrder'] = relationship(
+        back_populates='work'
+    )
+    masters: Mapped[list['Master']] = relationship(
+        back_populates='works',
+        secondary='masterwork'
+    )

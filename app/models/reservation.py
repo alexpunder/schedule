@@ -1,12 +1,31 @@
-from sqlalchemy import Column, String, Integer, Date, Time, ForeignKey
+from typing import TYPE_CHECKING
+from datetime import date, time
+
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app.core.db import Base
 
+if TYPE_CHECKING:
+    from app.models.car_post import CarPost
+    from app.models.work_order import WorkOrder
+
 
 class Reservation(Base):
-    dt_to_reserve = Column(Date)
-    time_from_reserve = Column(Time)
-    time_to_reserve = Column(Time)
-    description = Column(String(255), nullable=False)
-    work_order = Column(Integer, ForeignKey('workorder.id'), nullable=True)
-    car_post = Column(Integer, ForeignKey('carpost.id'))
+    dt_to_reserve: Mapped[date]
+    time_from_reserve: Mapped[time]
+    time_to_reserve: Mapped[time]
+    description: Mapped[str]
+    car_post_id: Mapped[int] = mapped_column(
+        ForeignKey('carpost.id')
+    )
+    work_order_id: Mapped[int | None] = mapped_column(
+        ForeignKey('workorder.id')
+    )
+
+    car_post: Mapped['CarPost'] = relationship(
+        back_populates='reservation'
+    )
+    work_order: Mapped['WorkOrder'] = relationship(
+        back_populates='reservation'
+    )
