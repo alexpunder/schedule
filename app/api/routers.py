@@ -8,6 +8,10 @@ from app.api.endpoints import (
 main_router = APIRouter()
 
 main_router.include_router(
+    user_router
+)
+
+main_router.include_router(
     work_router,
     prefix='/works',
     tags=['work']
@@ -47,9 +51,4 @@ main_router.include_router(
     auto_router,
     prefix='/auto',
     tags=['auto']
-)
-
-main_router.include_router(
-    user_router,
-    tags=['user']
 )
