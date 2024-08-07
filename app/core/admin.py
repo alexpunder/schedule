@@ -7,13 +7,13 @@ from starlette_admin import (
 from app.core.db import engine
 from app.models import (
     CarPost, Work, WorkOrder, Reservation,
-    Auto, Client, Master
+    Auto, Client, Master, User
 )
 
 admin = Admin(
     engine,
     title='Административная панель',
-    i18n_config=I18nConfig(default_locale="ru")
+    i18n_config=I18nConfig(default_locale='ru')
 )
 
 
@@ -108,6 +108,7 @@ class ClientView(ModelView):
     ]
 
 
+admin.add_view(ModelView(User))
 admin.add_view(CarPostView(CarPost, identity='carpost'))
 admin.add_view(ReservationView(Reservation, identity='reservation'))
 admin.add_view(WorkOrderView(WorkOrder, identity='workorder'))
