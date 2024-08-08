@@ -1,11 +1,13 @@
 __all__ = (
-    'AutoDB', 'AutoBase',
+    'AutoDB',
     'ClientDB',
+    'WorkOrderDB',
 )
 
-from .auto import AutoDB, AutoBase
+from .auto import AutoDB
 from .client import ClientDB
-
+from .work_order import WorkOrderDB
 
 ClientDB.model_rebuild()
 AutoDB.model_rebuild()
+WorkOrderDB.model_rebuild()
