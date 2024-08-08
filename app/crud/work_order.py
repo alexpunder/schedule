@@ -21,6 +21,9 @@ class WorkOrderCRUD:
                 selectinload(self.model.client)
                 .selectinload(Client.auto)
             )
+            .options(
+                selectinload(self.model.reservation)
+            )
         )
         work_orders_orm = work_orders.scalars().all()
         result = [
@@ -39,6 +42,9 @@ class WorkOrderCRUD:
             .options(
                 selectinload(self.model.client)
                 .selectinload(Client.auto)
+            )
+            .options(
+                selectinload(self.model.reservation)
             )
             .where(
                 self.model.id == work_order_id

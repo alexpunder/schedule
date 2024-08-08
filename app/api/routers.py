@@ -1,8 +1,14 @@
 from fastapi import APIRouter
 
-from app.api import client_router, work_order_router
+from app.api import client_router, work_order_router, reservation_router
 
 main_router = APIRouter()
+
+main_router.include_router(
+    router=reservation_router,
+    prefix='/reservation',
+    tags=['reservation']
+)
 
 main_router.include_router(
     router=work_order_router,

@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 if TYPE_CHECKING:
     from .client import ClientDB
+    from .reservation import ReservationFromWorkOrderDB
 
 
 class WorkOrderBase(BaseModel):
@@ -14,4 +15,9 @@ class WorkOrderBase(BaseModel):
 
 class WorkOrderDB(WorkOrderBase):
     id: int
+    reservation: list['ReservationFromWorkOrderDB']
     client: 'ClientDB'
+
+
+class WorkOrderFromReservation(WorkOrderBase):
+    id: int
