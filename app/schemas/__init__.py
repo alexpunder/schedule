@@ -7,13 +7,14 @@ __all__ = (
     'ClientFromWorkOrder',
     'ReservationFromWorkOrderDB',
     'WorkOrderFromReservation',
+    'CarPostFromReservation',
 )
 
 from .auto import AutoDB
 from .client import ClientDB, ClientFromWorkOrder
 from .work_order import WorkOrderDB, WorkOrderFromReservation
 from .reservation import ReservationDB, ReservationFromWorkOrderDB
-from .car_post import CarPostDB
+from .car_post import CarPostDB, CarPostFromReservation
 
 ClientDB.model_rebuild()
 AutoDB.model_rebuild()
@@ -23,3 +24,4 @@ WorkOrderFromReservation.model_rebuild()
 ReservationDB.model_rebuild()
 ReservationFromWorkOrderDB.model_rebuild()
 ClientFromWorkOrder.model_rebuild()
+CarPostFromReservation.model_rebuild()

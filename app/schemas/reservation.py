@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 if TYPE_CHECKING:
     from .work_order import WorkOrderFromReservation
+    from .car_post import CarPostFromReservation
 
 
 class ReservationBase(BaseModel):
@@ -16,6 +17,7 @@ class ReservationBase(BaseModel):
 
 class ReservationDB(ReservationBase):
     id: int
+    car_post: 'CarPostFromReservation'
     work_order: 'WorkOrderFromReservation'
 
 

@@ -17,3 +17,7 @@ class CarPostBase(BaseModel):
 class CarPostDB(CarPostBase):
     id: int
     reservation: list['ReservationFromWorkOrderDB']
+
+
+class CarPostFromReservation(CarPostBase):
+    id: int

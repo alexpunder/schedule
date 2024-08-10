@@ -22,6 +22,9 @@ class ReservationCRUD:
             .options(
                 selectinload(self.model.work_order)
             )
+            .options(
+                selectinload(self.model.car_post)
+            )
         )
         reservation_orm = reservations.scalars().all()
         result = [
@@ -39,6 +42,9 @@ class ReservationCRUD:
             select(self.model)
             .options(
                 selectinload(self.model.work_order)
+            )
+            .options(
+                selectinload(self.model.car_post)
             )
             .where(
                 self.model.id == reservation_id
@@ -60,6 +66,9 @@ class ReservationCRUD:
             select(self.model)
             .options(
                 selectinload(self.model.work_order)
+            )
+            .options(
+                selectinload(self.model.car_post)
             )
             .where(
                 self.model.dt_to_reserve == reservations_date
