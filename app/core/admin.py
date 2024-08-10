@@ -1,7 +1,8 @@
 from starlette_admin.contrib.sqla import Admin, ModelView
 from starlette_admin import (
     BooleanField, TimeField, StringField, IntegerField,
-    HasMany, HasOne, DateTimeField, DateField, I18nConfig
+    HasMany, HasOne, DateTimeField, DateField, I18nConfig,
+    EmailField,
 )
 
 from app.core.db import engine
@@ -108,7 +109,19 @@ class ClientView(ModelView):
     ]
 
 
-admin.add_view(ModelView(User))
+class UserView(ModelView):
+    identity = 'user'
+    name = 'Пользователи'
+    label = 'Пользователи'
+    fields = [
+        EmailField('email', label='Логин/почта'),
+        BooleanField('is_active', label='Активный'),
+        BooleanField('is_superuser', label='Суперпользователь'),
+        BooleanField('is_verified', label='Подтвержденный'),
+    ]
+
+
+admin.add_view(UserView(User, identity='user'))
 admin.add_view(CarPostView(CarPost, identity='carpost'))
 admin.add_view(ReservationView(Reservation, identity='reservation'))
 admin.add_view(WorkOrderView(WorkOrder, identity='workorder'))

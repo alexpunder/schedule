@@ -6,6 +6,7 @@ __all__ = (
     'CarPostDB', 'CarPostFromReservation',
     'MasterDB', 'MasterFromWork',
     'WorkDB', 'WorkFromMaster', 'WorkFromWorkOrder',
+    'UserCreate', 'UserUpdate', 'UserRead',
 )
 
 from .auto import AutoDB
@@ -15,6 +16,7 @@ from .reservation import ReservationDB, ReservationFromWorkOrderDB
 from .car_post import CarPostDB, CarPostFromReservation
 from .master import MasterDB, MasterFromWork
 from .work import WorkDB, WorkFromMaster, WorkFromWorkOrder
+from .user import UserCreate, UserUpdate, UserRead
 
 ClientDB.model_rebuild()
 AutoDB.model_rebuild()
