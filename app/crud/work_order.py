@@ -1,8 +1,8 @@
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.models import WorkOrder, Client, Work
+from app.models import Client, Work, WorkOrder
 from app.schemas import WorkOrderDB
 
 

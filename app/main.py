@@ -3,9 +3,9 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.core.config import settings
 from app.api.routers import main_router
 from app.core.admin import admin
+from app.core.config import settings
 from app.core.init_admin import create_superuser
 
 

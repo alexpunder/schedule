@@ -1,9 +1,9 @@
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
-from sqlalchemy import select
 
-from app.schemas import ClientDB
 from app.models import Client
+from app.schemas import ClientDB
 
 
 class ClientCRUD:

@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from sqlalchemy.orm import relationship, Mapped
+from sqlalchemy.orm import Mapped, relationship
 
 from app.models.base import ClientMasterBase
 

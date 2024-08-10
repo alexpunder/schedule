@@ -1,9 +1,8 @@
 from fastapi import APIRouter
 
-from app.api import (
-    client_router, work_order_router, reservation_router,
-    car_post_router, master_router, work_router, user_router,
-)
+from app.api import (car_post_router, client_router, master_router,
+                     reservation_router, user_router, work_order_router,
+                     work_router)
 
 main_router = APIRouter()
 

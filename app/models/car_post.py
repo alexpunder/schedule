@@ -1,12 +1,10 @@
 from datetime import time
 from typing import TYPE_CHECKING
 
-from sqlalchemy.orm import relationship, Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from app.core.constants import DEFAULT_BEGIN_TIME, DEFAULT_END_TIME
 from app.core.db import Base
-from app.core.constants import (
-    DEFAULT_BEGIN_TIME, DEFAULT_END_TIME
-)
 
 if TYPE_CHECKING:
     from app.models import Reservation

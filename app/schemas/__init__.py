@@ -10,13 +10,13 @@ __all__ = (
 )
 
 from .auto import AutoDB
-from .client import ClientDB, ClientFromWorkOrder
-from .work_order import WorkOrderDB, WorkOrderFromReservation
-from .reservation import ReservationDB, ReservationFromWorkOrderDB
 from .car_post import CarPostDB, CarPostFromReservation
+from .client import ClientDB, ClientFromWorkOrder
 from .master import MasterDB, MasterFromWork
+from .reservation import ReservationDB, ReservationFromWorkOrderDB
+from .user import UserCreate, UserRead, UserUpdate
 from .work import WorkDB, WorkFromMaster, WorkFromWorkOrder
-from .user import UserCreate, UserUpdate, UserRead
+from .work_order import WorkOrderDB, WorkOrderFromReservation
 
 ClientDB.model_rebuild()
 AutoDB.model_rebuild()

@@ -1,11 +1,11 @@
-from typing import TYPE_CHECKING
 from datetime import date, time
+from typing import TYPE_CHECKING
 
 from pydantic import BaseModel
 
 if TYPE_CHECKING:
-    from .work_order import WorkOrderFromReservation
     from .car_post import CarPostFromReservation
+    from .work_order import WorkOrderFromReservation
 
 
 class ReservationBase(BaseModel):

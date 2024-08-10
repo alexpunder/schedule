@@ -1,15 +1,11 @@
+from starlette_admin import (BooleanField, DateField, DateTimeField,
+                             EmailField, HasMany, HasOne, I18nConfig,
+                             IntegerField, StringField, TimeField)
 from starlette_admin.contrib.sqla import Admin, ModelView
-from starlette_admin import (
-    BooleanField, TimeField, StringField, IntegerField,
-    HasMany, HasOne, DateTimeField, DateField, I18nConfig,
-    EmailField,
-)
 
 from app.core.db import engine
-from app.models import (
-    CarPost, Work, WorkOrder, Reservation,
-    Auto, Client, Master, User,
-)
+from app.models import (Auto, CarPost, Client, Master, Reservation, User, Work,
+                        WorkOrder,)
 
 admin = Admin(
     engine,

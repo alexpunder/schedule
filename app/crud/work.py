@@ -1,9 +1,9 @@
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.schemas import WorkDB
 from app.models import Work
+from app.schemas import WorkDB
 
 
 class WorkCRUD:

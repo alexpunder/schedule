@@ -2,14 +2,14 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
-from sqlalchemy.orm import relationship, Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.db import Base
 
 if TYPE_CHECKING:
-    from app.models.work import Work
-    from app.models.reservation import Reservation
     from app.models.client import Client
+    from app.models.reservation import Reservation
+    from app.models.work import Work
 
 
 class WorkOrder(Base):

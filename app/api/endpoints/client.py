@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.schemas import ClientDB
-from app.crud import client_crud
 from app.core.db import get_async_session
+from app.crud import client_crud
+from app.schemas import ClientDB
 
 router = APIRouter()
 
