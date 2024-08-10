@@ -5,7 +5,7 @@ __all__ = (
     'ReservationDB', 'ReservationFromWorkOrderDB',
     'CarPostDB', 'CarPostFromReservation',
     'MasterDB', 'MasterFromWork',
-    'WorkDB', 'WorkFromMaster',
+    'WorkDB', 'WorkFromMaster', 'WorkFromWorkOrder',
 )
 
 from .auto import AutoDB
@@ -14,7 +14,7 @@ from .work_order import WorkOrderDB, WorkOrderFromReservation
 from .reservation import ReservationDB, ReservationFromWorkOrderDB
 from .car_post import CarPostDB, CarPostFromReservation
 from .master import MasterDB, MasterFromWork
-from .work import WorkDB, WorkFromMaster
+from .work import WorkDB, WorkFromMaster, WorkFromWorkOrder
 
 ClientDB.model_rebuild()
 AutoDB.model_rebuild()
@@ -29,3 +29,4 @@ ClientFromWorkOrder.model_rebuild()
 CarPostFromReservation.model_rebuild()
 WorkDB.model_rebuild()
 WorkFromMaster.model_rebuild()
+WorkFromWorkOrder.model_rebuild()

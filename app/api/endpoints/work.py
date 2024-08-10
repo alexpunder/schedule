@@ -9,7 +9,7 @@ router = APIRouter()
 
 
 @router.get('/', response_model=list[WorkDB])
-async def get_all_masters(
+async def get_all_works(
     session: AsyncSession = Depends(get_async_session),
 ):
     works = await work_crud.get_all_works_form_db(

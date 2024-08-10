@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 
-from app.models import WorkOrder, Client
+from app.models import WorkOrder, Client, Work
 from app.schemas import WorkOrderDB
 
 
@@ -20,6 +20,10 @@ class WorkOrderCRUD:
             .options(
                 selectinload(self.model.client)
                 .selectinload(Client.auto)
+            )
+            .options(
+                selectinload(self.model.work)
+                .selectinload(Work.masters)
             )
             .options(
                 selectinload(self.model.reservation)
@@ -42,6 +46,10 @@ class WorkOrderCRUD:
             .options(
                 selectinload(self.model.client)
                 .selectinload(Client.auto)
+            )
+            .options(
+                selectinload(self.model.work)
+                .selectinload(Work.masters)
             )
             .options(
                 selectinload(self.model.reservation)

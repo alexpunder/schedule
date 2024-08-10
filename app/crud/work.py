@@ -20,6 +20,9 @@ class WorkCRUD:
             .options(
                 selectinload(self.model.masters)
             )
+            .options(
+                selectinload(self.model.work_order)
+            )
         )
         works_orm = works.scalars().all()
         result = [
