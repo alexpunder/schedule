@@ -2,10 +2,22 @@ from fastapi import APIRouter
 
 from app.api import (
     client_router, work_order_router, reservation_router,
-    car_post_router,
+    car_post_router, master_router, work_router,
 )
 
 main_router = APIRouter()
+
+main_router.include_router(
+    router=work_router,
+    prefix='/work',
+    tags=['work']
+)
+
+main_router.include_router(
+    router=master_router,
+    prefix='/master',
+    tags=['master']
+)
 
 main_router.include_router(
     router=car_post_router,
