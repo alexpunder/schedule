@@ -4,6 +4,7 @@ from pydantic import BaseModel
 
 if TYPE_CHECKING:
     from .auto import AutoDB
+    from .work_order import WorkOrderFromReservation
 
 
 class ClientBase(BaseModel):
@@ -13,5 +14,11 @@ class ClientBase(BaseModel):
 
 
 class ClientDB(ClientBase):
+    id: int
+    auto: list['AutoDB']
+    work_order: list['WorkOrderFromReservation']
+
+
+class ClientFromWorkOrder(ClientBase):
     id: int
     auto: list['AutoDB']

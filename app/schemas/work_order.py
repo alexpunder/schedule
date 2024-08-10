@@ -4,7 +4,7 @@ from datetime import datetime
 from pydantic import BaseModel
 
 if TYPE_CHECKING:
-    from .client import ClientDB
+    from .client import ClientFromWorkOrder
     from .reservation import ReservationFromWorkOrderDB
 
 
@@ -16,7 +16,7 @@ class WorkOrderBase(BaseModel):
 class WorkOrderDB(WorkOrderBase):
     id: int
     reservation: list['ReservationFromWorkOrderDB']
-    client: 'ClientDB'
+    client: 'ClientFromWorkOrder'
 
 
 class WorkOrderFromReservation(WorkOrderBase):

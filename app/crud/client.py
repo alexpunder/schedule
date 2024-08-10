@@ -21,6 +21,7 @@ class ClientCRUD:
                 self.model.id == client_id
             )
             .options(selectinload(self.model.auto))
+            .options(selectinload(Client.work_order))
         )
         result_orm = item_by_id.scalars().first()
         result = ClientDB.model_validate(result_orm, from_attributes=True)
@@ -33,6 +34,7 @@ class ClientCRUD:
         all_clients = await session.execute(
             select(self.model)
             .options(selectinload(self.model.auto))
+            .options(selectinload(Client.work_order))
         )
         result_orm = all_clients.scalars().all()
         result = [
