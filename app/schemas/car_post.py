@@ -13,6 +13,10 @@ class CarPostBase(BaseModel):
     time_to_begin: time
     time_to_end: time
 
+    class Config:
+        extra = 'forbid'
+        from_attributes = True
+
 
 class CarPostDB(CarPostBase):
     id: int
@@ -21,3 +25,11 @@ class CarPostDB(CarPostBase):
 
 class CarPostFromReservation(CarPostBase):
     id: int
+
+
+class CarPostCreate(CarPostBase):
+    pass
+
+
+class CarPostUpdate(CarPostBase):
+    pass

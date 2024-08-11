@@ -1,4 +1,5 @@
 __all__ = (
+    'BaseCRUD',
     'client_crud',
     'work_order_crud',
     'reservation_crud',
@@ -7,6 +8,7 @@ __all__ = (
     'work_crud',
 )
 
+from .base import BaseCRUD
 from .car_post import car_post_crud
 from .client import client_crud
 from .master import master_crud

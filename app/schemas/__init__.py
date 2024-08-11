@@ -3,14 +3,17 @@ __all__ = (
     'ClientDB', 'ClientFromWorkOrder',
     'WorkOrderDB', 'WorkOrderFromReservation',
     'ReservationDB', 'ReservationFromWorkOrderDB',
-    'CarPostDB', 'CarPostFromReservation',
+    'CarPostDB', 'CarPostFromReservation', 'CarPostCreate', 'CarPostUpdate',
     'MasterDB', 'MasterFromWork',
     'WorkDB', 'WorkFromMaster', 'WorkFromWorkOrder',
     'UserCreate', 'UserUpdate', 'UserRead',
 )
 
 from .auto import AutoDB
-from .car_post import CarPostDB, CarPostFromReservation
+from .car_post import (
+    CarPostDB, CarPostFromReservation, CarPostCreate,
+    CarPostUpdate,
+)
 from .client import ClientDB, ClientFromWorkOrder
 from .master import MasterDB, MasterFromWork
 from .reservation import ReservationDB, ReservationFromWorkOrderDB
