@@ -58,5 +58,22 @@ class AutoCRUD(BaseCRUD):
             for row in auto
         ]
 
+    async def create_auto_from_client(
+        self,
+        auto_data,
+        session: AsyncSession,
+    ):
+        data = auto_data.dict()
+        db_obj = self.model(**data)
+        await self.add_commit_and_refresh_db(
+            db_obj=db_obj,
+            session=session,
+        )
+        result = await self.get_auto_by_id(
+            auto_id=db_obj.id,
+            session=session,
+        )
+        return result
+
 
 auto_crud = AutoCRUD(Auto)

@@ -21,3 +21,7 @@ class AutoDB(AutoBase):
 class AutoExtendDB(AutoBase):
     id: int
     client: 'ClientFromAuto'
+
+
+class AutoCreate(AutoBase):
+    client_id: int

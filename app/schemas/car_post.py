@@ -13,10 +13,6 @@ class CarPostBase(BaseModel):
     time_to_begin: time
     time_to_end: time
 
-    class Config:
-        extra = 'forbid'
-        from_attributes = True
-
 
 class CarPostDB(CarPostBase):
     id: int

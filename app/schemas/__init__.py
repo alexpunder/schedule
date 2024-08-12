@@ -1,5 +1,5 @@
 __all__ = (
-    'AutoDB', 'AutoExtendDB',
+    'AutoDB', 'AutoExtendDB', 'AutoCreate',
     'ClientDB', 'ClientFromWorkOrder', 'ClientFromAuto',
     'WorkOrderDB', 'WorkOrderFromReservation',
     'ReservationDB', 'ReservationFromWorkOrderDB',
@@ -9,7 +9,7 @@ __all__ = (
     'UserCreate', 'UserUpdate', 'UserRead',
 )
 
-from .auto import AutoDB, AutoExtendDB
+from .auto import AutoDB, AutoExtendDB, AutoCreate
 from .car_post import (
     CarPostDB, CarPostFromReservation, CarPostCreate,
     CarPostUpdate,
