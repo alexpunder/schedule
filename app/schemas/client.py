@@ -3,8 +3,7 @@ from typing import TYPE_CHECKING
 from pydantic import BaseModel
 
 if TYPE_CHECKING:
-    from app.schemas import AutoDB
-    from app.schemas import WorkOrderFromReservation
+    from app.schemas import AutoDB, WorkOrderFromReservation
 
 
 class ClientBase(BaseModel):

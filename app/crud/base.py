@@ -1,5 +1,4 @@
 from fastapi.encoders import jsonable_encoder
-from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
@@ -7,19 +6,6 @@ class BaseCRUD:
 
     def __init__(self, model):
         self.model = model
-
-    async def get_obj_by_id(
-        self,
-        id_obj: int,
-        session: AsyncSession,
-    ):
-        obj = await session.execute(
-            select(self.model)
-            .where(
-                self.model.id == id_obj
-            )
-        )
-        return obj.scalars().first()
 
     async def create_obj(
         self,

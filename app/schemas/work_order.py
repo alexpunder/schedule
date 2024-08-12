@@ -4,9 +4,8 @@ from typing import TYPE_CHECKING
 from pydantic import BaseModel
 
 if TYPE_CHECKING:
-    from app.schemas import ClientFromWorkOrder
-    from app.schemas import ReservationFromWorkOrderDB
-    from app.schemas import WorkFromWorkOrder
+    from app.schemas import (ClientFromWorkOrder, ReservationFromWorkOrderDB,
+                             WorkFromWorkOrder)
 
 
 class WorkOrderBase(BaseModel):

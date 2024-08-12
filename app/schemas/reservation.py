@@ -4,8 +4,7 @@ from typing import TYPE_CHECKING
 from pydantic import BaseModel
 
 if TYPE_CHECKING:
-    from app.schemas import CarPostFromReservation
-    from app.schemas import WorkOrderFromReservation
+    from app.schemas import CarPostFromReservation, WorkOrderFromReservation
 
 
 class ReservationBase(BaseModel):
@@ -23,3 +22,12 @@ class ReservationDB(ReservationBase):
 
 class ReservationFromWorkOrderDB(ReservationBase):
     id: int
+
+
+class ReservationCreate(ReservationBase):
+    car_post_id: int | None
+    work_order_id: int | None
+
+
+class ReservationUpdate(ReservationCreate):
+    pass

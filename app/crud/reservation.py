@@ -4,11 +4,12 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
+from app.crud import BaseCRUD
 from app.models import Reservation
 from app.schemas import ReservationDB
 
 
-class ReservationCRUD:
+class ReservationCRUD(BaseCRUD):
 
     def __init__(self, model):
         self.model = model
@@ -26,12 +27,7 @@ class ReservationCRUD:
                 selectinload(self.model.car_post)
             )
         )
-        reservation_orm = reservations.scalars().all()
-        result = [
-            ReservationDB.model_validate(row, from_attributes=True)
-            for row in reservation_orm
-        ]
-        return result
+        return reservations.scalars().all()
 
     async def get_reservations_by_id(
         self,
@@ -50,12 +46,7 @@ class ReservationCRUD:
                 self.model.id == reservation_id
             )
         )
-        reservation_orm = reservation.scalars().first()
-        result = ReservationDB.model_validate(
-            reservation_orm,
-            from_attributes=True,
-        )
-        return result
+        return reservation.scalars().first()
 
     async def get_reservations_by_date(
         self,
@@ -74,12 +65,24 @@ class ReservationCRUD:
                 self.model.dt_to_reserve == reservations_date
             )
         )
-        reservations_orm = reservations.scalars().all()
-        result = [
+        return reservations.scalars().all()
+
+    async def get_validated_reservation_model(
+        self,
+        reservation_orm: Reservation,
+    ):
+        return ReservationDB.model_validate(
+            reservation_orm, from_attributes=True,
+        )
+
+    async def get_all_validated_reservations_model(
+        self,
+        reservations_orm: list[Reservation],
+    ):
+        return [
             ReservationDB.model_validate(row, from_attributes=True)
             for row in reservations_orm
         ]
-        return result
 
 
 reservation_crud = ReservationCRUD(Reservation)

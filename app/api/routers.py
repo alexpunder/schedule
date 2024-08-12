@@ -7,6 +7,12 @@ from app.api import (car_post_router, client_router, master_router,
 main_router = APIRouter()
 
 main_router.include_router(
+    router=reservation_router,
+    prefix='/reservation',
+    tags=['reservation']
+)
+
+main_router.include_router(
     router=auto_router,
     prefix='/auto',
     tags=['auto']
@@ -32,12 +38,6 @@ main_router.include_router(
     router=car_post_router,
     prefix='/car_post',
     tags=['car_post']
-)
-
-main_router.include_router(
-    router=reservation_router,
-    prefix='/reservation',
-    tags=['reservation']
 )
 
 main_router.include_router(
