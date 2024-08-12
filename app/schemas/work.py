@@ -3,8 +3,8 @@ from typing import TYPE_CHECKING
 from pydantic import BaseModel
 
 if TYPE_CHECKING:
-    from .master import MasterFromWork
-    from .work_order import WorkOrderFromReservation
+    from app.schemas import MasterFromWork
+    from app.schemas import WorkOrderFromReservation
 
 
 class WorkBase(BaseModel):

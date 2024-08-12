@@ -1,6 +1,6 @@
 __all__ = (
-    'AutoDB',
-    'ClientDB', 'ClientFromWorkOrder',
+    'AutoDB', 'AutoExtendDB',
+    'ClientDB', 'ClientFromWorkOrder', 'ClientFromAuto',
     'WorkOrderDB', 'WorkOrderFromReservation',
     'ReservationDB', 'ReservationFromWorkOrderDB',
     'CarPostDB', 'CarPostFromReservation', 'CarPostCreate', 'CarPostUpdate',
@@ -9,12 +9,12 @@ __all__ = (
     'UserCreate', 'UserUpdate', 'UserRead',
 )
 
-from .auto import AutoDB
+from .auto import AutoDB, AutoExtendDB
 from .car_post import (
     CarPostDB, CarPostFromReservation, CarPostCreate,
     CarPostUpdate,
 )
-from .client import ClientDB, ClientFromWorkOrder
+from .client import ClientDB, ClientFromWorkOrder, ClientFromAuto
 from .master import MasterDB, MasterFromWork
 from .reservation import ReservationDB, ReservationFromWorkOrderDB
 from .user import UserCreate, UserRead, UserUpdate
@@ -22,7 +22,9 @@ from .work import WorkDB, WorkFromMaster, WorkFromWorkOrder
 from .work_order import WorkOrderDB, WorkOrderFromReservation
 
 ClientDB.model_rebuild()
+ClientFromAuto.model_rebuild()
 AutoDB.model_rebuild()
+AutoExtendDB.model_rebuild()
 WorkOrderDB.model_rebuild()
 CarPostDB.model_rebuild()
 MasterDB.model_rebuild()

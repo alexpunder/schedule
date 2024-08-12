@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 from pydantic import BaseModel
 
 if TYPE_CHECKING:
-    from .work import WorkFromMaster
+    from app.schemas import WorkFromMaster
 
 
 class MasterBase(BaseModel):

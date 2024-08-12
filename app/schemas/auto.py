@@ -1,4 +1,9 @@
+from typing import TYPE_CHECKING
+
 from pydantic import BaseModel
+
+if TYPE_CHECKING:
+    from app.schemas import ClientFromAuto
 
 
 class AutoBase(BaseModel):
@@ -11,3 +16,8 @@ class AutoBase(BaseModel):
 
 class AutoDB(AutoBase):
     id: int
+
+
+class AutoExtendDB(AutoBase):
+    id: int
+    client: 'ClientFromAuto'

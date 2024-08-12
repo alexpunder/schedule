@@ -1,4 +1,5 @@
 __all__ = (
+    'auto_router',
     'client_router',
     'work_order_router',
     'reservation_router',
@@ -8,6 +9,7 @@ __all__ = (
     'user_router',
 )
 
+from app.api.endpoints.auto import router as auto_router
 from app.api.endpoints.car_post import router as car_post_router
 from app.api.endpoints.client import router as client_router
 from app.api.endpoints.master import router as master_router

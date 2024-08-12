@@ -2,9 +2,15 @@ from fastapi import APIRouter
 
 from app.api import (car_post_router, client_router, master_router,
                      reservation_router, user_router, work_order_router,
-                     work_router)
+                     work_router, auto_router)
 
 main_router = APIRouter()
+
+main_router.include_router(
+    router=auto_router,
+    prefix='/auto',
+    tags=['auto']
+)
 
 main_router.include_router(
     router=user_router

@@ -4,8 +4,8 @@ from typing import TYPE_CHECKING
 from pydantic import BaseModel
 
 if TYPE_CHECKING:
-    from .car_post import CarPostFromReservation
-    from .work_order import WorkOrderFromReservation
+    from app.schemas import CarPostFromReservation
+    from app.schemas import WorkOrderFromReservation
 
 
 class ReservationBase(BaseModel):

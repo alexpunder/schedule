@@ -3,8 +3,8 @@ from typing import TYPE_CHECKING
 from pydantic import BaseModel
 
 if TYPE_CHECKING:
-    from .auto import AutoDB
-    from .work_order import WorkOrderFromReservation
+    from app.schemas import AutoDB
+    from app.schemas import WorkOrderFromReservation
 
 
 class ClientBase(BaseModel):
@@ -17,6 +17,10 @@ class ClientDB(ClientBase):
     id: int
     auto: list['AutoDB']
     work_order: list['WorkOrderFromReservation']
+
+
+class ClientFromAuto(ClientBase):
+    id: int
 
 
 class ClientFromWorkOrder(ClientBase):
