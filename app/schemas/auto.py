@@ -25,3 +25,7 @@ class AutoExtendDB(AutoBase):
 
 class AutoCreate(AutoBase):
     client_id: int
+
+
+class AutoUpdate(AutoCreate):
+    pass
