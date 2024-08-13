@@ -1,22 +1,69 @@
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
-from app.crud.base import CRUDBase
-from app.models import WorkOrder, Work
+from app.models import Client, Work, WorkOrder
+from app.schemas import WorkOrderDB
 
 
-class CRUDWorkOrder(CRUDBase):
+class WorkOrderCRUD:
 
-    @staticmethod
-    async def get_linked_works(
-        object_id,
-        session
+    def __init__(self, model):
+        self.model = model
+
+    async def get_all_work_orders(
+        self,
+        session: AsyncSession,
     ):
-        db_objects = await session.execute(
-            select(Work).where(
-                Work.work_order_id == object_id
+        work_orders = await session.execute(
+            select(self.model)
+            .options(
+                selectinload(self.model.client)
+                .selectinload(Client.auto)
+            )
+            .options(
+                selectinload(self.model.work)
+                .selectinload(Work.masters)
+            )
+            .options(
+                selectinload(self.model.reservation)
             )
         )
-        return db_objects.scalars().all()
+        work_orders_orm = work_orders.scalars().all()
+        result = [
+            WorkOrderDB.model_validate(row, from_attributes=True)
+            for row in work_orders_orm
+        ]
+        return result
+
+    async def get_work_order_by_id(
+        self,
+        work_order_id: int,
+        session: AsyncSession,
+    ):
+        work_order = await session.execute(
+            select(self.model)
+            .options(
+                selectinload(self.model.client)
+                .selectinload(Client.auto)
+            )
+            .options(
+                selectinload(self.model.work)
+                .selectinload(Work.masters)
+            )
+            .options(
+                selectinload(self.model.reservation)
+            )
+            .where(
+                self.model.id == work_order_id
+            )
+        )
+        work_order_orm = work_order.scalars().first()
+        result = WorkOrderDB.model_validate(
+            work_order_orm,
+            from_attributes=True
+        )
+        return result
 
 
-crud_work_order = CRUDWorkOrder(WorkOrder)
+work_order_crud = WorkOrderCRUD(WorkOrder)

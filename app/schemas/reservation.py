@@ -1,52 +1,32 @@
-from typing import Optional
-from datetime import datetime, time, timedelta, date
+from datetime import date, time
+from typing import TYPE_CHECKING
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
-from app.schemas.car_post import CarPostDB
-from app.schemas.work_order import WorkOrderDB
-
-
-dt_format = '%Y-%m-%d'
-time_format = '%H:%M'
-
-DATE_NOW = date.today().strftime(dt_format)
-FROM_TIME = (
-    datetime.now() + timedelta(minutes=10)
-).time().strftime(time_format)
-TO_TIME = (
-    datetime.now() + timedelta(minutes=40)
-).time().strftime(time_format)
+if TYPE_CHECKING:
+    from app.schemas import CarPostFromReservation, WorkOrderFromReservation
 
 
 class ReservationBase(BaseModel):
-    dt_to_reserve: date = Field(..., example=DATE_NOW)
-    time_from_reserve: time = Field(..., example=FROM_TIME)
-    time_to_reserve: time = Field(..., example=TO_TIME)
+    dt_to_reserve: date
+    time_from_reserve: time
+    time_to_reserve: time
     description: str
-
-    class Config:
-        extra = 'forbid'
-        str_min_length = 5
 
 
 class ReservationDB(ReservationBase):
-    work_order: Optional[int] = None
-    car_post: int
     id: int
+    car_post: 'CarPostFromReservation'
+    work_order: 'WorkOrderFromReservation'
 
-    class Config:
-        from_attributes = True
 
-
-class ReservationExtend(ReservationBase):
-    work_order: Optional[WorkOrderDB] = None
-    car_post: CarPostDB
+class ReservationFromWorkOrderDB(ReservationBase):
+    id: int
 
 
 class ReservationCreate(ReservationBase):
-    work_order: Optional[int] = None
-    car_post: int
+    car_post_id: int | None
+    work_order_id: int | None
 
 
 class ReservationUpdate(ReservationCreate):

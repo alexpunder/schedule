@@ -1,21 +1,20 @@
-from pydantic import BaseModel, Field
+from typing import TYPE_CHECKING
+
+from pydantic import BaseModel
+
+if TYPE_CHECKING:
+    from app.schemas import WorkFromMaster
 
 
 class MasterBase(BaseModel):
-    first_name: str = Field(..., max_length=255)
-    last_name: str = Field(..., max_length=255)
+    first_name: str
+    last_name: str
 
 
 class MasterDB(MasterBase):
     id: int
-
-    class Config:
-        from_attributes = True
+    works: list['WorkFromMaster']
 
 
-class MasterCreate(MasterBase):
-    pass
-
-
-class MasterUpdate(MasterBase):
-    pass
+class MasterFromWork(MasterBase):
+    id: int

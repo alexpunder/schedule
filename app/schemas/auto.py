@@ -1,24 +1,31 @@
-from pydantic import BaseModel, Field
+from typing import TYPE_CHECKING
+
+from pydantic import BaseModel
+
+if TYPE_CHECKING:
+    from app.schemas import ClientFromAuto
 
 
 class AutoBase(BaseModel):
-    vin_code: str = Field(...)
-    mark: str = Field(...)
-    model: str = Field(...)
-    year: int = Field(...)
-    mileage: int = Field(...)
+    vin_code: str
+    mark: str
+    model: str
+    year: int
+    mileage: int
 
 
 class AutoDB(AutoBase):
     id: int
 
-    class Config:
-        from_attributes = True
+
+class AutoExtendDB(AutoBase):
+    id: int
+    client: 'ClientFromAuto'
 
 
 class AutoCreate(AutoBase):
-    pass
+    client_id: int
 
 
-class AutoUpdate(AutoBase):
+class AutoUpdate(AutoCreate):
     pass

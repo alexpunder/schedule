@@ -1,69 +1,58 @@
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
 from fastapi.encoders import jsonable_encoder
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
-class CRUDBase:
+class BaseCRUD:
 
     def __init__(self, model):
         self.model = model
 
-    async def get(
+    async def create_obj(
         self,
-        object_id,
-        session: AsyncSession
+        data_obj,
+        session: AsyncSession,
     ):
-        db_object = await session.execute(
-            select(self.model).where(
-                self.model.id == object_id
-            )
+        data = data_obj.dict()
+        db_obj = self.model(**data)
+        await self.add_commit_and_refresh_db(
+            db_obj=db_obj,
+            session=session,
         )
-        return db_object.scalars().first()
+        return db_obj
 
-    async def get_all(
+    async def update_obj(
         self,
-        session: AsyncSession
+        db_obj,
+        update_data_obj,
+        session: AsyncSession,
     ):
-        db_objects = await session.execute(
-            select(self.model)
+        encoded_obj = jsonable_encoder(db_obj)
+        update_data = update_data_obj.dict(exclude_unset=True)
+
+        for key in encoded_obj:
+            if key in update_data:
+                setattr(db_obj, key, update_data[key])
+
+        await self.add_commit_and_refresh_db(
+            db_obj=db_obj,
+            session=session,
         )
-        return db_objects.scalars().all()
+        return db_obj
 
-    async def create(
+    async def delete_obj(
         self,
-        object,
-        session: AsyncSession
+        obj,
+        session: AsyncSession,
     ):
-        object_in_data = object.dict()
-        db_object = self.model(**object_in_data)
-        session.add(db_object)
+        await session.delete(obj)
         await session.commit()
-        await session.refresh(db_object)
-        return db_object
+        return obj
 
-    async def update(
+    async def add_commit_and_refresh_db(
         self,
-        db_object,
-        object_in,
-        session: AsyncSession
+        db_obj,
+        session: AsyncSession,
     ):
-        object_data = jsonable_encoder(db_object)
-        update_data = object_in.dict(exclude_unset=True)
-
-        for field in object_data:
-            if field in update_data:
-                setattr(db_object, field, update_data[field])
-
-        session.add(db_object)
+        session.add(db_obj)
         await session.commit()
-        await session.refresh(db_object)
-        return db_object
-
-    async def delete(
-        self,
-        db_object,
-        session: AsyncSession
-    ):
-        await session.delete(db_object)
-        await session.commit()
-        return db_object
+        await session.refresh(db_obj)

@@ -1,33 +1,27 @@
-from pydantic import BaseModel, Field
+from typing import TYPE_CHECKING
 
-from app.schemas.auto import AutoDB
+from pydantic import BaseModel
+
+if TYPE_CHECKING:
+    from app.schemas import AutoDB, WorkOrderFromReservation
 
 
 class ClientBase(BaseModel):
-    first_name: str = Field(..., max_length=255)
-    last_name: str = Field(..., max_length=255)
-    phone_number: str = Field(..., max_length=30)
-
-    class Config:
-        extra = 'forbid'
+    first_name: str
+    last_name: str
+    phone_number: str
 
 
 class ClientDB(ClientBase):
     id: int
-    auto_id: int
-
-    class Config:
-        from_attributes = True
+    auto: list['AutoDB']
+    work_order: list['WorkOrderFromReservation']
 
 
-class ClientWithAuto(BaseModel):
-    client: ClientDB
-    auto: AutoDB
+class ClientFromAuto(ClientBase):
+    id: int
 
 
-class ClientCreate(ClientBase):
-    auto_id: int = Field(...)
-
-
-class ClientUpdate(ClientCreate):
-    pass
+class ClientFromWorkOrder(ClientBase):
+    id: int
+    auto: list['AutoDB']

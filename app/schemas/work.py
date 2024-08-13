@@ -1,31 +1,27 @@
-from typing import Union
+from typing import TYPE_CHECKING
 
-from pydantic import BaseModel, PositiveInt
+from pydantic import BaseModel
 
-from app.schemas.master import MasterDB
-from app.schemas.work_order import WorkOrderDB
+if TYPE_CHECKING:
+    from app.schemas import MasterFromWork, WorkOrderFromReservation
 
 
 class WorkBase(BaseModel):
     title: str
-    price: PositiveInt
-    quantity: PositiveInt
-    master_id: int
-    work_order_id: int
-
-    class Config:
-        str_min_length = 5
+    price: int
+    quantity: int
 
 
 class WorkDB(WorkBase):
     id: int
-    master_id: Union[MasterDB, int]
-    work_order_id: Union[WorkOrderDB, int]
+    work_order: list['WorkOrderFromReservation']
+    masters: list['MasterFromWork']
 
 
-class WorkCreate(WorkBase):
-    pass
+class WorkFromMaster(WorkBase):
+    id: int
 
 
-class WorkUpdate(WorkBase):
-    pass
+class WorkFromWorkOrder(WorkBase):
+    id: int
+    masters: list['MasterFromWork']

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String
+from sqlalchemy.orm import Mapped
 
 from app.core.db import Base
 
@@ -7,5 +7,5 @@ class ClientMasterBase(Base):
 
     __abstract__ = True
 
-    first_name = Column(String(255), nullable=False)
-    last_name = Column(String(255), nullable=False)
+    first_name: Mapped[str]
+    last_name: Mapped[str]

@@ -1,23 +1,24 @@
 from datetime import datetime
+from typing import TYPE_CHECKING
 
 from pydantic import BaseModel
 
+if TYPE_CHECKING:
+    from app.schemas import (ClientFromWorkOrder, ReservationFromWorkOrderDB,
+                             WorkFromWorkOrder)
+
 
 class WorkOrderBase(BaseModel):
+    dt_to_create: datetime
     description: str
 
 
 class WorkOrderDB(WorkOrderBase):
-    dt_to_create: datetime
     id: int
-
-    class Config:
-        from_attributes = True
-
-
-class WorkOrderCreate(WorkOrderBase):
-    pass
+    reservation: list['ReservationFromWorkOrderDB']
+    work: list['WorkFromWorkOrder']
+    client: 'ClientFromWorkOrder'
 
 
-class WorkOrderUpdate(WorkOrderBase):
-    pass
+class WorkOrderFromReservation(WorkOrderBase):
+    id: int
