@@ -22,3 +22,11 @@ class WorkOrderDB(WorkOrderBase):
 
 class WorkOrderFromReservation(WorkOrderBase):
     id: int
+
+
+class WorkOrderCreate(WorkOrderBase):
+    client_id: int
+
+
+class WorkOrderUpdate(WorkOrderCreate):
+    pass

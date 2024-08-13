@@ -2,14 +2,12 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
+from app.crud import BaseCRUD
 from app.models import Master
 from app.schemas import MasterDB
 
 
-class MasterCRUD:
-
-    def __init__(self, model):
-        self.model = model
+class MasterCRUD(BaseCRUD):
 
     async def get_all_masters_form_db(
         self,
@@ -21,12 +19,23 @@ class MasterCRUD:
                 selectinload(self.model.works)
             )
         )
-        masters_orm = masters.scalars().all()
-        result = [
-            MasterDB.model_validate(row, from_attributes=True)
-            for row in masters_orm
-        ]
-        return result
+        return masters.scalars().all()
+
+    async def get_master_by_id(
+        self,
+        master_id: int,
+        session: AsyncSession,
+    ):
+        master = await session.execute(
+            select(self.model)
+            .options(
+                selectinload(self.model.works)
+            )
+            .where(
+                self.model.id == master_id
+            )
+        )
+        return master.scalars().first()
 
 
-master_crud = MasterCRUD(Master)
+master_crud = MasterCRUD(model=Master, db_schema=MasterDB)

@@ -25,3 +25,11 @@ class WorkFromMaster(WorkBase):
 class WorkFromWorkOrder(WorkBase):
     id: int
     masters: list['MasterFromWork']
+
+
+class WorkCreate(WorkBase):
+    pass
+
+
+class WorkUpdate(WorkCreate):
+    pass

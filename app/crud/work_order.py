@@ -2,14 +2,12 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
+from app.crud import BaseCRUD
 from app.models import Client, Work, WorkOrder
 from app.schemas import WorkOrderDB
 
 
-class WorkOrderCRUD:
-
-    def __init__(self, model):
-        self.model = model
+class WorkOrderCRUD(BaseCRUD):
 
     async def get_all_work_orders(
         self,
@@ -29,12 +27,7 @@ class WorkOrderCRUD:
                 selectinload(self.model.reservation)
             )
         )
-        work_orders_orm = work_orders.scalars().all()
-        result = [
-            WorkOrderDB.model_validate(row, from_attributes=True)
-            for row in work_orders_orm
-        ]
-        return result
+        return work_orders.scalars().all()
 
     async def get_work_order_by_id(
         self,
@@ -58,12 +51,7 @@ class WorkOrderCRUD:
                 self.model.id == work_order_id
             )
         )
-        work_order_orm = work_order.scalars().first()
-        result = WorkOrderDB.model_validate(
-            work_order_orm,
-            from_attributes=True
-        )
-        return result
+        return work_order.scalars().first()
 
 
-work_order_crud = WorkOrderCRUD(WorkOrder)
+work_order_crud = WorkOrderCRUD(model=WorkOrder, db_schema=WorkOrderDB)

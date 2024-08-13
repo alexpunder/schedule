@@ -2,14 +2,16 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
+from app.crud import BaseCRUD
 from app.models import Client
 from app.schemas import ClientDB
 
 
-class ClientCRUD:
+class ClientCRUD(BaseCRUD):
 
-    def __init__(self, model):
+    def __init__(self, model, db_schema):
         self.model = model
+        self.db_schema = db_schema
 
     async def get_client_by_id(
         self,
@@ -23,9 +25,7 @@ class ClientCRUD:
             .options(selectinload(self.model.auto))
             .options(selectinload(Client.work_order))
         )
-        result_orm = item_by_id.scalars().first()
-        result = ClientDB.model_validate(result_orm, from_attributes=True)
-        return result
+        return item_by_id.scalars().first()
 
     async def get_all_clients(
         self,
@@ -36,12 +36,7 @@ class ClientCRUD:
             .options(selectinload(self.model.auto))
             .options(selectinload(Client.work_order))
         )
-        result_orm = all_clients.scalars().all()
-        result = [
-            ClientDB.model_validate(row, from_attributes=True)
-            for row in result_orm
-        ]
-        return result
+        return all_clients.scalars().all()
 
 
-client_crud = ClientCRUD(Client)
+client_crud = ClientCRUD(model=Client, db_schema=ClientDB)

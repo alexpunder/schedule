@@ -17,15 +17,10 @@ router = APIRouter()
 async def get_all_reservations(
     session: AsyncSession = Depends(get_async_session)
 ):
-    reservations_orm = await reservation_crud.get_all_reservations(
+    reservations = await reservation_crud.get_all_reservations(
         session=session,
     )
-    validated_reservations = (
-        await reservation_crud.get_all_validated_reservations_model(
-            reservations_orm,
-        )
-    )
-    return validated_reservations
+    return reservations
 
 
 @router.get('/by_date', response_model=list[ReservationDB])
@@ -33,16 +28,11 @@ async def get_reservations_by_date(
     reservations_date: date = Query(...),
     session: AsyncSession = Depends(get_async_session),
 ):
-    reservations_orm = await reservation_crud.get_reservations_by_date(
+    reservations_by_date = await reservation_crud.get_reservations_by_date(
         reservations_date=reservations_date,
         session=session,
     )
-    validated_reservations = (
-        await reservation_crud.get_all_validated_reservations_model(
-            reservations_orm,
-        )
-    )
-    return validated_reservations
+    return reservations_by_date
 
 
 @router.get('/{reservation_id}', response_model=ReservationDB)
@@ -50,16 +40,11 @@ async def get_reservation_by_id(
     reservation_id: int,
     session: AsyncSession = Depends(get_async_session),
 ):
-    reservation_orm = await reservation_crud.get_reservations_by_id(
+    reservation_by_id = await reservation_crud.get_reservations_by_id(
         reservation_id=reservation_id,
         session=session,
     )
-    validated_reservation = (
-        await reservation_crud.get_validated_reservation_model(
-            reservation_orm=reservation_orm,
-        )
-    )
-    return validated_reservation
+    return reservation_by_id
 
 
 @router.post('/', response_model=ReservationDB)
@@ -67,13 +52,13 @@ async def create_reservation(
     reservation_data: ReservationCreate,
     session: AsyncSession = Depends(get_async_session),
 ):
-    reservation_orm = await reservation_crud.create_obj(
+    new_reservation = await reservation_crud.create_obj(
         data_obj=reservation_data, session=session,
     )
-    reservation = await reservation_crud.get_reservations_by_id(
-        reservation_id=reservation_orm.id, session=session,
+    created_reservation = await reservation_crud.get_reservations_by_id(
+        reservation_id=new_reservation.id, session=session,
     )
-    return reservation
+    return created_reservation
 
 
 @router.patch('/{reservation_id}', response_model=ReservationDB)
@@ -82,11 +67,11 @@ async def update_reservation(
     update_data: ReservationUpdate,
     session: AsyncSession = Depends(get_async_session),
 ):
-    reservation_orm = await reservation_crud.get_reservations_by_id(
+    reservation = await reservation_crud.get_reservations_by_id(
         reservation_id=reservation_id, session=session,
     )
     updated_reservation = await reservation_crud.update_obj(
-        db_obj=reservation_orm,
+        db_obj=reservation,
         update_data_obj=update_data,
         session=session,
     )

@@ -11,9 +11,6 @@ from app.schemas import ReservationDB
 
 class ReservationCRUD(BaseCRUD):
 
-    def __init__(self, model):
-        self.model = model
-
     async def get_all_reservations(
         self,
         session: AsyncSession,
@@ -67,22 +64,5 @@ class ReservationCRUD(BaseCRUD):
         )
         return reservations.scalars().all()
 
-    async def get_validated_reservation_model(
-        self,
-        reservation_orm: Reservation,
-    ):
-        return ReservationDB.model_validate(
-            reservation_orm, from_attributes=True,
-        )
 
-    async def get_all_validated_reservations_model(
-        self,
-        reservations_orm: list[Reservation],
-    ):
-        return [
-            ReservationDB.model_validate(row, from_attributes=True)
-            for row in reservations_orm
-        ]
-
-
-reservation_crud = ReservationCRUD(Reservation)
+reservation_crud = ReservationCRUD(model=Reservation, db_schema=ReservationDB)
