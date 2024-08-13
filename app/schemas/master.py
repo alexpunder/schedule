@@ -18,3 +18,11 @@ class MasterDB(MasterBase):
 
 class MasterFromWork(MasterBase):
     id: int
+
+
+class MasterCreate(MasterBase):
+    pass
+
+
+class MasterUpdate(MasterCreate):
+    pass

@@ -4,8 +4,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 class BaseCRUD:
 
-    def __init__(self, model):
+    def __init__(self, model, db_schema=None):
         self.model = model
+        self.db_schema = db_schema
 
     async def create_obj(
         self,
@@ -47,6 +48,23 @@ class BaseCRUD:
         await session.delete(obj)
         await session.commit()
         return obj
+
+    async def get_validated_model_obj(
+        self,
+        orm_obj,
+    ):
+        return self.db_schema.model_validate(
+            orm_obj, from_attributes=True
+        )
+
+    async def get_all_validated_model_objs(
+        self,
+        orm_obj,
+    ):
+        return [
+            self.db_schema.model_validate(row, from_attributes=True)
+            for row in orm_obj
+        ]
 
     async def add_commit_and_refresh_db(
         self,

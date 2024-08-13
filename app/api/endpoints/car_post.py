@@ -30,10 +30,7 @@ async def get_car_post_by_id(
         car_post_id=car_post_id,
         session=session,
     )
-    validated_car_post = await car_post_crud.get_validated_car_post_model(
-        car_post=car_post,
-    )
-    return validated_car_post
+    return car_post
 
 
 @router.post('/', response_model=CarPostFromReservation)
@@ -41,11 +38,11 @@ async def create_car_post(
     car_post_data: CarPostCreate,
     session: AsyncSession = Depends(get_async_session),
 ):
-    new_car_post = await car_post_crud.create_obj(
+    car_post = await car_post_crud.create_obj(
         data_obj=car_post_data,
         session=session,
     )
-    return new_car_post
+    return car_post
 
 
 @router.patch('/{car_post_id}', response_model=CarPostDB)
@@ -54,12 +51,12 @@ async def update_car_post_data(
     update_data: CarPostUpdate,
     session: AsyncSession = Depends(get_async_session),
 ):
-    car_post = await car_post_crud.get_car_post_by_id(
+    car_post_orm = await car_post_crud.get_car_post_by_id(
         car_post_id=car_post_id,
         session=session,
     )
     updated_car_post = await car_post_crud.update_obj(
-        db_obj=car_post,
+        db_obj=car_post_orm,
         update_data_obj=update_data,
         session=session,
     )
@@ -71,8 +68,8 @@ async def delete_car_post_by_id(
     car_post_id: int,
     session: AsyncSession = Depends(get_async_session),
 ):
-    car_post = await car_post_crud.get_obj_by_id(
-        id_obj=car_post_id,
+    car_post = await car_post_crud.get_car_post_by_id(
+        car_post_id=car_post_id,
         session=session,
     )
     deleted_car_post = await car_post_crud.delete_obj(

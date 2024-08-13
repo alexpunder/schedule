@@ -25,3 +25,11 @@ class ClientFromAuto(ClientBase):
 class ClientFromWorkOrder(ClientBase):
     id: int
     auto: list['AutoDB']
+
+
+class ClientCreate(ClientBase):
+    pass
+
+
+class ClientUpdate(ClientCreate):
+    pass
