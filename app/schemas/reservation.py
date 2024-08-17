@@ -1,5 +1,5 @@
 from datetime import date, time
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 from pydantic import BaseModel
 
@@ -17,7 +17,7 @@ class ReservationBase(BaseModel):
 class ReservationDB(ReservationBase):
     id: int
     car_post: 'CarPostFromReservation'
-    work_order: 'WorkOrderFromReservation'
+    work_order: Optional['WorkOrderFromReservation']
 
 
 class ReservationFromWorkOrderDB(ReservationBase):

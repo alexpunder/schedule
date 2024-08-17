@@ -5,6 +5,7 @@ from sqlalchemy.orm import selectinload
 from app.crud import BaseCRUD
 from app.models import Client, Work, WorkOrder
 from app.schemas import WorkOrderDB
+from app.api.validations.work_order import check_work_order_exist_and_get_id
 
 
 class WorkOrderCRUD(BaseCRUD):
@@ -34,24 +35,11 @@ class WorkOrderCRUD(BaseCRUD):
         work_order_id: int,
         session: AsyncSession,
     ):
-        work_order = await session.execute(
-            select(self.model)
-            .options(
-                selectinload(self.model.client)
-                .selectinload(Client.auto)
-            )
-            .options(
-                selectinload(self.model.work)
-                .selectinload(Work.masters)
-            )
-            .options(
-                selectinload(self.model.reservation)
-            )
-            .where(
-                self.model.id == work_order_id
-            )
+        return await check_work_order_exist_and_get_id(
+            model=self.model,
+            work_order_id=work_order_id,
+            session=session,
         )
-        return work_order.scalars().first()
 
 
 work_order_crud = WorkOrderCRUD(model=WorkOrder, db_schema=WorkOrderDB)

@@ -5,6 +5,7 @@ from sqlalchemy.orm import selectinload
 from app.crud import BaseCRUD
 from app.models import Work
 from app.schemas import WorkDB
+from app.api.validations.work import check_work_exist_and_get_id
 
 
 class WorkCRUD(BaseCRUD):
@@ -14,19 +15,11 @@ class WorkCRUD(BaseCRUD):
         work_id: int,
         session: AsyncSession,
     ):
-        work = await session.execute(
-            select(self.model)
-            .options(
-                selectinload(self.model.masters)
-            )
-            .options(
-                selectinload(self.model.work_order)
-            )
-            .where(
-                self.model.id == work_id
-            )
+        return await check_work_exist_and_get_id(
+            model=self.model,
+            work_id=work_id,
+            session=session,
         )
-        return work.scalars().first()
 
     async def get_all_works_form_db(
         self,

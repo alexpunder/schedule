@@ -5,6 +5,7 @@ from sqlalchemy.orm import selectinload
 from app.crud import BaseCRUD
 from app.models import Client
 from app.schemas import ClientDB
+from app.api.validations.client import check_client_exist_and_get_id
 
 
 class ClientCRUD(BaseCRUD):
@@ -18,14 +19,11 @@ class ClientCRUD(BaseCRUD):
         client_id: int,
         session: AsyncSession,
     ):
-        item_by_id = await session.execute(
-            select(self.model).where(
-                self.model.id == client_id
-            )
-            .options(selectinload(self.model.auto))
-            .options(selectinload(Client.work_order))
+        return await check_client_exist_and_get_id(
+            model=self.model,
+            client_id=client_id,
+            session=session,
         )
-        return item_by_id.scalars().first()
 
     async def get_all_clients(
         self,

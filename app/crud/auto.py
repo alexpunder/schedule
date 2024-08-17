@@ -5,6 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.crud import BaseCRUD
 from app.models import Auto
 from app.schemas import AutoExtendDB
+from app.api.validations.auto import check_auto_exist_and_get_id
 
 
 class AutoCRUD(BaseCRUD):
@@ -28,18 +29,11 @@ class AutoCRUD(BaseCRUD):
         auto_id: int,
         session: AsyncSession,
     ):
-        auto = await session.execute(
-            select(self.model)
-            .where(
-                self.model.id == auto_id
-            )
-            .options(
-                selectinload(
-                    self.model.client
-                )
-            )
+        return await check_auto_exist_and_get_id(
+            model=self.model,
+            auto_id=auto_id,
+            session=session,
         )
-        return auto.scalars().first()
 
 
 auto_crud = AutoCRUD(model=Auto, db_schema=AutoExtendDB)

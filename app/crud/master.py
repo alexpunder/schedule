@@ -5,6 +5,7 @@ from sqlalchemy.orm import selectinload
 from app.crud import BaseCRUD
 from app.models import Master
 from app.schemas import MasterDB
+from app.api.validations.master import check_master_exist_and_get_id
 
 
 class MasterCRUD(BaseCRUD):
@@ -26,16 +27,11 @@ class MasterCRUD(BaseCRUD):
         master_id: int,
         session: AsyncSession,
     ):
-        master = await session.execute(
-            select(self.model)
-            .options(
-                selectinload(self.model.works)
-            )
-            .where(
-                self.model.id == master_id
-            )
+        return await check_master_exist_and_get_id(
+            model=self.model,
+            master_id=master_id,
+            session=session,
         )
-        return master.scalars().first()
 
 
 master_crud = MasterCRUD(model=Master, db_schema=MasterDB)
